@@ -1,0 +1,276 @@
+#!/bin/bash
+
+# Check if the script receives a filename
+if [ $# -eq 0 ]; then
+    echo "Usage: run <filename>"
+    exit 1
+fi
+
+filename="$1"
+name=$(basename "$filename")
+ext="${name##*.}"
+base="${name%.*}"
+
+# Function to check for errors
+check_error() {
+    if [ $? -ne 0 ]; then
+        echo "An error occurred while running $filename"
+        exit 1
+    fi
+}
+
+# Switch based on the file extension
+case "$ext" in
+    # C++
+    cpp)
+        g++ "$filename" -o "$base" && "./$base"
+        ;;
+
+    # C
+    c)
+        gcc "$filename" -o "$base" && "./$base"
+        ;;
+
+    # Python
+    py)
+        python3 "$filename"
+        ;;
+
+    # Java
+    java)
+        javac "$filename" && java "$base"
+        ;;
+
+    # JavaScript (Node.js)
+    js)
+        node "$filename"
+        ;;
+
+    # TypeScript
+    ts)
+        tsc "$filename" && node "${base}.js"
+        ;;
+
+    # PHP
+    php)
+        php "$filename"
+        ;;
+
+    # Go
+    go)
+        go run "$filename"
+        ;;
+
+    # Rust
+    rs)
+        rustc "$filename" -o "$base" && "./$base"
+        ;;
+
+    # Swift
+    swift)
+        swift "$filename"
+        ;;
+
+    # Haskell
+    hs)
+        ghc -o "$base" "$filename" && "./$base"
+        ;;
+
+    # Kotlin
+    kt)
+        kotlinc "$filename" -include-runtime -d "${base}.jar" && java -jar "${base}.jar"
+        ;;
+
+    # Ruby
+    rb)
+        ruby "$filename"
+        ;;
+
+    # Perl
+    pl)
+        perl "$filename"
+        ;;
+
+    # R
+    r)
+        Rscript "$filename"
+        ;;
+
+    # Lua
+    lua)
+        lua "$filename"
+        ;;
+
+    # Dart
+    dart)
+        dart "$filename"
+        ;;
+
+    # Scala
+    scala)
+        scalac "$filename" && scala "$base"
+        ;;
+
+    # Objective-C
+    m)
+        clang "$filename" -o "$base" -framework Foundation && "./$base"
+        ;;
+
+    # F#
+    fs)
+        fsharpc "$filename" && mono "${base}.exe"
+        ;;
+
+    # Elixir
+    exs)
+        elixir "$filename"
+        ;;
+
+    # Zsh
+    zsh)
+        zsh "$filename"
+        ;;
+
+    # Julia
+    jl)
+        julia "$filename"
+        ;;
+
+    # Lisp
+    lisp|cl)
+        sbcl --script "$filename"
+        ;;
+
+    # OCaml
+    ml)
+        ocamlc -o "$base" "$filename" && "./$base"
+        ;;
+
+    # Clojure
+    clj)
+        clojure "$filename"
+        ;;
+
+    # Erlang
+    erl)
+        erlc "$filename" && erl -noshell -s "${base}" start -s init stop
+        ;;
+
+    # Nim
+    nim)
+        nim compile --run "$filename"
+        ;;
+
+    # V
+    v)
+        v run "$filename"
+        ;;
+
+    # Crystal
+    cr)
+        crystal run "$filename"
+        ;;
+
+    # Fortran
+    f90|f95)
+        gfortran "$filename" -o "$base" && "./$base"
+        ;;
+
+    # COBOL
+    cob|cbl)
+        cobc -x "$filename" -o "$base" && "./$base"
+        ;;
+
+    # Pascal
+    pas)
+        fpc "$filename" && "./$base"
+        ;;
+
+    # Vala
+    vala)
+        valac "$filename" -o "$base" && "./$base"
+        ;;
+
+    # Prolog
+    pl)
+        swipl -s "$filename" -g main -t halt
+        ;;
+
+    # Tcl
+    tcl)
+        tclsh "$filename"
+        ;;
+
+    # Scheme
+    scm)
+        guile "$filename"
+        ;;
+
+    # Forth
+    fs)
+        gforth "$filename"
+        ;;
+
+    # Awk
+    awk)
+        awk -f "$filename"
+        ;;
+
+    # Makefile
+    mk)
+        make -f "$filename"
+        ;;
+
+    # Matlab/Octave
+    m)
+        octave "$filename"
+        ;;
+
+    # Groovy
+    groovy)
+        groovy "$filename"
+        ;;
+
+    # Ada
+    adb)
+        gnatmake "$filename" && "./$base"
+        ;;
+
+    # Solidity
+    sol)
+        solc --bin --optimize -o build "$filename" && echo "Compiled Solidity code in build/"
+        ;;
+
+    # Verilog
+    v)
+        iverilog "$filename" -o "$base" && vvp "$base"
+        ;;
+
+    # VHDL
+    vhdl)
+        ghdl -a "$filename" && ghdl -e "$base" && ghdl -r "$base"
+        ;;
+
+    # Racket
+    rkt)
+        racket "$filename"
+        ;;
+
+    # Red
+    red)
+        red --cli "$filename"
+        ;;
+
+    # XSLT
+    xslt)
+        xsltproc "$filename"
+        ;;
+
+    *)
+        echo "Unsupported file extension: $ext"
+        exit 1
+        ;;
+esac
+
+check_error
+
