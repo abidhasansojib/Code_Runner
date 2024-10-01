@@ -82,29 +82,22 @@ You can install them via your system’s package manager like `apt`, `brew`, or 
    chmod +x /usr/local/bin/run
 3. Ensure that /usr/local/bin/ is part of your system’s PATH.
 
-# Usage
-<p>To run any supported program, use the following command:</p>
-```bash
-echo "run <filename>"
-  
-<p>For example:</p>
-```bash
-echo "run hello.cpp"
-
-<p>This will compile and run hello.cpp, and the output file will be named hello.</p>
 # Error Handling
 
 <p>If an error occurs during compilation or execution, the script will print an error message indicating the problem.
 </p>
+
 # Output
 
 <p>For compiled languages (like C, C++, Rust, etc.), the output binary will be named after the input file (without the extension). For example, hello.cpp will produce an output file named hello, which the script will execute automatically.</p>
 
-# Example Usage
+# Usage and Example
 
 1. Run a C++ program:
    ```bash
    echo "run program.cpp"
+
+This will compile and run program.cpp, and the output file will be named program
 
 2. Run a Python script:
    ```bash
